@@ -11,7 +11,7 @@
 
   <link rel="stylesheet" href="style.css">
 
-  <!-- TikTok Pixel Code Start -->
+<!-- TikTok Pixel Code Start -->
 <script>
 !function (w, d, t) {
   w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(
@@ -19,11 +19,12 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
 ;n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
 
 
-  ttq.load('D8QKAT3C77U677EP1P7G');
+  ttq.load('D8QKEIBC77U9LDPED1OG');
   ttq.page();
 }(window, document, 'ttq');
 </script>
 <!-- TikTok Pixel Code End -->
+
 </head>
 <body>
 
@@ -105,245 +106,280 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
 
   <script>
     const scenes = document.querySelectorAll(".scene");
-    const bgSlides = document.getElementsByClassName("bg-slide");
-    
-    const sliderWrapper = document.getElementById("sliderWrapper");
-    const videoTrack = document.getElementById("videoTrack");
-    const mainPlayerBox = document.getElementById("mainPlayerBox");
-    const mainMediaContainer = document.getElementById("mainMediaContainer");
+  const bgSlides = document.getElementsByClassName("bg-slide");
+  
+  const sliderWrapper = document.getElementById("sliderWrapper");
+  const videoTrack = document.getElementById("videoTrack");
+  const mainPlayerBox = document.getElementById("mainPlayerBox");
+  const mainMediaContainer = document.getElementById("mainMediaContainer");
 
-    const beautySliderWrapper = document.getElementById("beautySliderWrapper");
-    const beautyTrack = document.getElementById("beautyTrack");
-    const beautyPlayerBox = document.getElementById("beautyPlayerBox");
-    const beautyMediaContainer = document.getElementById("beautyMediaContainer");
-    const beautyInfoContainer = document.getElementById("beautyInfoContainer");
-    
-    let currentSlideIndex = 0;
-    let bgInterval;
-    let currentBeautyName = '';
-    let currentBeautyItemIndex = 0;
+  const beautySliderWrapper = document.getElementById("beautySliderWrapper");
+  const beautyTrack = document.getElementById("beautyTrack");
+  const beautyPlayerBox = document.getElementById("beautyPlayerBox");
+  const beautyMediaContainer = document.getElementById("beautyMediaContainer");
+  const beautyInfoContainer = document.getElementById("beautyInfoContainer");
+  
+  let currentSlideIndex = 0;
+  let bgInterval;
+  let currentBeautyName = '';
+  let currentBeautyItemIndex = 0;
 
-    const myLinks = [
-      "https://t.me/+Yo0kKklFb-YwOWRl"
-    ];
+  const myLinks = [
+    "https://t.me/+Yo0kKklFb-YwOWRl"
+  ];
 
-    function randomLink() {
-      if (myLinks.length === 0) {
-        alert('Chưa có link nào. Vui lòng thêm link vào mảng myLinks');
-        return;
-      }
-      const randomIndex = Math.floor(Math.random() * myLinks.length);
-      window.open(myLinks[randomIndex], '_blank');
+  // HÀM TRIGGER TIKTOK CLICK BUTTON EVENT KHI THAM GIA
+  function randomLink() {
+    if (myLinks.length === 0) {
+      alert('Chưa có link nào. Vui lòng thêm link vào mảng myLinks');
+      return;
     }
 
-    function renderBackgrounds(backgrounds) {
-      const bgSlider = document.getElementById("bgSlider");
-      if (!backgrounds || backgrounds.length === 0) return;
-
-      bgSlider.innerHTML = backgrounds.map((url, index) => `
-        <div class="bg-slide ${index === 0 ? 'active' : ''}" style="background-image: url('${encodeURI(url)}');"></div>
-      `).join('');
-
-      clearInterval(bgInterval);
-      bgInterval = setInterval(changeBackground, 5000);
-    }
-
-    function changeBackground() {
-      if (bgSlides.length <= 1) return;
-      bgSlides[currentSlideIndex].classList.remove("active");
-      currentSlideIndex = (currentSlideIndex + 1) % bgSlides.length;
-      bgSlides[currentSlideIndex].classList.add("active");
-    }
-
-    // RENDER TRẠM KÝ ỨC
-    function renderGallery(gallery) {
-      if (!gallery || gallery.length === 0) return;
-
-      videoTrack.innerHTML = gallery.map((item, index) => {
-        const safeUrl = encodeURI(item.url);
-        const formatIndex = String(index + 1).padStart(2, '0');
-        if (item.type === 'video') {
-          return `<div class="video-card is-video" data-url="${safeUrl}"><div class="video-thumb"><video src="${safeUrl}" muted loop autoplay playsinline></video></div><div class="video-info"><b>Ký ức ${formatIndex}</b></div></div>`;
-        } else {
-          return `<div class="video-card" data-url="${safeUrl}"><div class="video-thumb"><img src="${safeUrl}" alt="Photo"></div><div class="video-info"><b>Ký ức ${formatIndex}</b></div></div>`;
-        }
-      }).join('');
-
-      // Gắn sự kiện click gốc
-      Array.from(videoTrack.children).forEach(card => {
-        card.addEventListener('click', () => viewMedia(card.getAttribute('data-url')));
-      });
-
-      setupInfiniteSlider(videoTrack, 'video');
-    }
-
-    // SỬA LỖI MẤT KIỂM SOÁT ĐƯỜNG DẪN KHI CLONE PHẦN TỬ
-    function setupInfiniteSlider(trackElement, type) {
-      const originalCards = Array.from(trackElement.children);
-      originalCards.forEach(card => {
-        const clonedCard = card.cloneNode(true);
-        
-        // Gắn lại sự kiện dựa trên loại nội dung slider chính xác
-        if (type === 'video') {
-          clonedCard.addEventListener('click', () => {
-            viewMedia(card.getAttribute('data-url'));
-          });
-        } else if (type === 'beauty') {
-          clonedCard.addEventListener('click', () => {
-            openBeautyDetail(card.getAttribute('data-name'));
-          });
-        }
-        
-        trackElement.appendChild(clonedCard);
-      });
-    }
-
-    function viewMedia(fileUrl) {
-      if (!fileUrl) return;
-      const safeUrl = encodeURI(fileUrl);
-      const isVideo = safeUrl.toLowerCase().endsWith('.mp4');
-
-      if (isVideo) {
-        mainMediaContainer.innerHTML = `<div style="position: relative; width: 100%; height: 100%;"><video id="activeVideo" src="${safeUrl}" controls autoplay preload="metadata" style="width: 100%; height: 100%; object-fit: contain;"></video><div id="loadingIndicator" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #f43f5e; font-size: 14px; display: none;">⏳ Đang tải...</div></div>`;
-        const video = document.getElementById("activeVideo");
-        const loadingIndicator = document.getElementById("loadingIndicator");
-        if (loadingIndicator) {
-          video.addEventListener('play', () => { loadingIndicator.style.display = 'none'; });
-          video.addEventListener('waiting', () => { loadingIndicator.style.display = 'block'; });
-          video.addEventListener('playing', () => { loadingIndicator.style.display = 'none'; });
-        }
-      } else {
-        mainMediaContainer.innerHTML = `<img src="${safeUrl}" alt="Hồng Nhan" style="width: 100%; height: 100%; object-fit: contain;">`;
-      }
-      mainPlayerBox.style.display = "block";  
-      sliderWrapper.classList.add("paused"); 
-      mainPlayerBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-
-    function closeMainPlayer() {
-      mainPlayerBox.style.display = "none";
-      mainMediaContainer.innerHTML = ""; 
-      sliderWrapper.classList.remove("paused"); 
-    }
-
-    function closeBeautyPlayer() {
-      beautyPlayerBox.style.display = "none";
-      beautyMediaContainer.innerHTML = "";
-      beautyInfoContainer.innerHTML = "";
-      beautySliderWrapper.classList.remove("paused");
-    }
-
-    function activateScenes(){
-      const trigger = window.innerHeight * 0.8;
-      scenes.forEach(s => {
-        const rect = s.getBoundingClientRect();
-        if(rect.top < trigger) s.classList.add("active");
-      });
-    }
-
-    function scrollToNext() {
-      if(scenes.length > 1) scenes[1].scrollIntoView({ behavior: 'smooth' });
-    }
-
-    window.addEventListener("scroll", () => {
-      activateScenes();
-      const scrollTop = document.documentElement.scrollTop;
-      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = (scrollTop / scrollHeight) * 100;
-      document.getElementById("progress").style.width = progress + "%";
+    // 1. Gửi định danh nâng cao (Nếu có PII thu thập trước đó, thay thế chuỗi SHA-256 vào đây)
+    // Nếu chưa có data email/sđt tại bước này, bạn có thể bỏ qua hàm ttq.identify
+    ttq.identify({
+      "email": "<hashed_email_address>", 
+      "phone_number": "<hashed_phone_number>",
+      "external_id": "<hashed_external_id>"
     });
 
-    function renderBeautySlider() {
-      const beautyTrack = document.getElementById("beautyTrack");
-      beautyTrack.innerHTML = Object.keys(beautyGallery).map(name => {
-        const person = beautyGallery[name];
-        const coverImage = person.items[0].url;
-        return `
-          <div class="video-card" data-name="${name}">
-            <div class="video-thumb"><img src="${coverImage}" alt="${name}"></div>
-            <div class="video-info"><b>${name}</b></div>
-          </div>
-        `;
-      }).join('');
-
-      // Gắn sự kiện click cho các thẻ gốc danh sách giai nhân
-      Array.from(beautyTrack.children).forEach(card => {
-        card.addEventListener('click', () => openBeautyDetail(card.getAttribute('data-name')));
-      });
-
-      setupInfiniteSlider(beautyTrack, 'beauty');
-    }
-
-    function openBeautyDetail(name) {
-      const person = beautyGallery[name];
-      if (!person) return;
-
-      currentBeautyName = name;
-      currentBeautyItemIndex = 0;
-      displayBeautyItem();
-    }
-
-    function displayBeautyItem() {
-      const person = beautyGallery[currentBeautyName];
-      if (!person || currentBeautyItemIndex >= person.items.length) return;
-
-      const item = person.items[currentBeautyItemIndex];
-      const safeUrl = encodeURI(item.url);
-      const isVideo = item.type === 'video';
-      const itemCount = person.items.length;
-
-      if (isVideo) {
-        beautyMediaContainer.innerHTML = `<div style="position: relative; width: 100%; height: 100%;"><video id="activeBeautyVideo" src="${safeUrl}" controls autoplay preload="metadata" style="width: 100%; height: 100%; object-fit: contain;"></video><div id="beautyLoadingIndicator" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #f43f5e; font-size: 14px; display: none;">⏳ Đang tải...</div></div>`;
-        const video = document.getElementById("activeBeautyVideo");
-        const loadingIndicator = document.getElementById("beautyLoadingIndicator");
-        if (loadingIndicator) {
-          video.addEventListener('play', () => { loadingIndicator.style.display = 'none'; });
-          video.addEventListener('waiting', () => { loadingIndicator.style.display = 'block'; });
-          video.addEventListener('playing', () => { loadingIndicator.style.display = 'none'; });
+    // 2. Kích hoạt sự kiện ClickButton truyền dữ liệu nút bấm sang TikTok Ads
+    ttq.track('ClickButton', {
+      "contents": [
+        {
+          "content_id": "btn_join_now",
+          "content_type": "product",
+          "content_name": "Nút Tham Gia Ngay",
+          "content_category": "Chuyển hướng Telegram"
         }
-      } else {
-        beautyMediaContainer.innerHTML = `<img src="${safeUrl}" alt="Beauties" style="width: 100%; height: 100%; object-fit: contain;">`;
-      }
+      ],
+      "value": 0,
+      "currency": "VND",
+      "description": "Người dùng click tham gia nhóm kín Telegram"
+    });
 
-      const info = person.info;
-      beautyInfoContainer.innerHTML = `
-        <div class="info-title">🕊️ Hồng Nhan: ${info.name} 🕊️</div>
-        <div class="info-item">💎 <span>Nghệ danh:</span> ${info.name}</div>
-        <div class="info-item">📅 <span>Năm sinh:</span> ${info.yob}</div>
-        <div class="info-item">📍 <span>Xuất xứ:</span> ${info.location}</div>
-        <div class="info-item">🟢 <span>Giờ làm:</span> ${info.time}</div>
-        <div class="info-item">👙 <span>Số đo 3 vòng:</span> ${info.size}</div>
-        <div class="info-item">💬 <span>Tình trạng:</span> ${info.status}</div>
-        <div class="info-item" style="margin-top: 10px; padding-top: 10px; border-top: 1px dashed rgba(251, 113, 133, 0.2); font-style: italic; color: #e2d5de;">
-          <span>📝 Mô tả:</span> ${info.desc}
-        </div>
-        <div class="info-item" style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed rgba(251, 113, 133, 0.2); display: flex; justify-content: center; gap: 10px;">
-          <button onclick="prevBeautyItem()" style="padding: 8px 15px; background: #9f1239; border: 1px solid #f43f5e; color: white; border-radius: 6px; cursor: pointer; font-size: 12px;">← Trước</button>
-          <span style="color: #fda4af; font-size: 12px; display: flex; align-items: center;">${currentBeautyItemIndex + 1}/${itemCount}</span>
-          <button onclick="nextBeautyItem()" style="padding: 8px 15px; background: #9f1239; border: 1px solid #f43f5e; color: white; border-radius: 6px; cursor: pointer; font-size: 12px;">Sau →</button>
+    const randomIndex = Math.floor(Math.random() * myLinks.length);
+    window.open(myLinks[randomIndex], '_blank');
+  }
+
+  function renderBackgrounds(backgrounds) {
+    const bgSlider = document.getElementById("bgSlider");
+    if (!backgrounds || backgrounds.length === 0) return;
+
+    bgSlider.innerHTML = backgrounds.map((url, index) => `
+      <div class="bg-slide ${index === 0 ? 'active' : ''}" style="background-image: url('${encodeURI(url)}');"></div>
+    `).join('');
+
+    clearInterval(bgInterval);
+    bgInterval = setInterval(changeBackground, 5000);
+  }
+
+  function changeBackground() {
+    if (bgSlides.length <= 1) return;
+    bgSlides[currentSlideIndex].classList.remove("active");
+    currentSlideIndex = (currentSlideIndex + 1) % bgSlides.length;
+    bgSlides[currentSlideIndex].classList.add("active");
+  }
+
+  function renderGallery(gallery) {
+    if (!gallery || gallery.length === 0) return;
+
+    videoTrack.innerHTML = gallery.map((item, index) => {
+      const safeUrl = encodeURI(item.url);
+      const formatIndex = String(index + 1).padStart(2, '0');
+      if (item.type === 'video') {
+        return `<div class="video-card is-video" data-url="${safeUrl}"><div class="video-thumb"><video src="${safeUrl}" muted loop autoplay playsinline></video></div><div class="video-info"><b>Ký ức ${formatIndex}</b></div></div>`;
+      } else {
+        return `<div class="video-card" data-url="${safeUrl}"><div class="video-thumb"><img src="${safeUrl}" alt="Photo"></div><div class="video-info"><b>Ký ức ${formatIndex}</b></div></div>`;
+      }
+    }).join('');
+
+    Array.from(videoTrack.children).forEach(card => {
+      card.addEventListener('click', () => viewMedia(card.getAttribute('data-url')));
+    });
+
+    setupInfiniteSlider(videoTrack, 'video');
+  }
+
+  function setupInfiniteSlider(trackElement, type) {
+    const originalCards = Array.from(trackElement.children);
+    originalCards.forEach(card => {
+      const clonedCard = card.cloneNode(true);
+      
+      if (type === 'video') {
+        clonedCard.addEventListener('click', () => {
+          viewMedia(card.getAttribute('data-url'));
+        });
+      } else if (type === 'beauty') {
+        clonedCard.addEventListener('click', () => {
+          openBeautyDetail(card.getAttribute('data-name'));
+        });
+      }
+      
+      trackElement.appendChild(clonedCard);
+    });
+  }
+
+  function viewMedia(fileUrl) {
+    if (!fileUrl) return;
+    const safeUrl = encodeURI(fileUrl);
+    const isVideo = safeUrl.toLowerCase().endsWith('.mp4');
+
+    if (isVideo) {
+      mainMediaContainer.innerHTML = `<div style="position: relative; width: 100%; height: 100%;"><video id="activeVideo" src="${safeUrl}" controls autoplay preload="metadata" style="width: 100%; height: 100%; object-fit: contain;"></video><div id="loadingIndicator" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #f43f5e; font-size: 14px; display: none;">⏳ Đang tải...</div></div>`;
+      const video = document.getElementById("activeVideo");
+      const loadingIndicator = document.getElementById("loadingIndicator");
+      if (loadingIndicator) {
+        video.addEventListener('play', () => { loadingIndicator.style.display = 'none'; });
+        video.addEventListener('waiting', () => { loadingIndicator.style.display = 'block'; });
+        video.addEventListener('playing', () => { loadingIndicator.style.display = 'none'; });
+      }
+    } else {
+      mainMediaContainer.innerHTML = `<img src="${safeUrl}" alt="Hồng Nhan" style="width: 100%; height: 100%; object-fit: contain;">`;
+    }
+    mainPlayerBox.style.display = "block";  
+    sliderWrapper.classList.add("paused"); 
+    mainPlayerBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function closeMainPlayer() {
+    mainPlayerBox.style.display = "none";
+    mainMediaContainer.innerHTML = ""; 
+    sliderWrapper.classList.remove("paused"); 
+  }
+
+  function closeBeautyPlayer() {
+    beautyPlayerBox.style.display = "none";
+    beautyMediaContainer.innerHTML = "";
+    beautyInfoContainer.innerHTML = "";
+    beautySliderWrapper.classList.remove("paused");
+  }
+
+  function activateScenes(){
+    const trigger = window.innerHeight * 0.8;
+    scenes.forEach(s => {
+      const rect = s.getBoundingClientRect();
+      if(rect.top < trigger) s.classList.add("active");
+    });
+  }
+
+  function scrollToNext() {
+    if(scenes.length > 1) scenes[1].scrollIntoView({ behavior: 'smooth' });
+  }
+
+  window.addEventListener("scroll", () => {
+    activateScenes();
+    const scrollTop = document.documentElement.scrollTop;
+    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = (scrollTop / scrollHeight) * 100;
+    document.getElementById("progress").style.width = progress + "%";
+  });
+
+  function renderBeautySlider() {
+    const beautyTrack = document.getElementById("beautyTrack");
+    beautyTrack.innerHTML = Object.keys(beautyGallery).map(name => {
+      const person = beautyGallery[name];
+      const coverImage = person.items[0].url;
+      return `
+        <div class="video-card" data-name="${name}">
+          <div class="video-thumb"><img src="${coverImage}" alt="${name}"></div>
+          <div class="video-info"><b>${name}</b></div>
         </div>
       `;
+    }).join('');
 
-      beautyPlayerBox.style.display = "block";
-      beautySliderWrapper.classList.add("paused");
-      beautyPlayerBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    Array.from(beautyTrack.children).forEach(card => {
+      card.addEventListener('click', () => openBeautyDetail(card.getAttribute('data-name')));
+    });
+
+    setupInfiniteSlider(beautyTrack, 'beauty');
+  }
+
+  // HÀM TRIGGER TIKTOK VIEW CONTENT EVENT KHI XEM CHI TIẾT GIAI NHÂN
+  function openBeautyDetail(name) {
+    const person = beautyGallery[name];
+    if (!person) return;
+
+    currentBeautyName = name;
+    currentBeautyItemIndex = 0;
+    
+    // Đẩy sự kiện xem chi tiết giai nhân (ViewContent) sang TikTok
+    ttq.track('ViewContent', {
+      "contents": [
+        {
+          "content_id": "beauty_" + name.toLowerCase().replace(/\s+/g, '_'),
+          "content_type": "product",
+          "content_name": "Xem Giai Nhân: " + name
+        }
+      ],
+      "value": 0,
+      "currency": "VND"
+    });
+
+    displayBeautyItem();
+  }
+
+  function displayBeautyItem() {
+    const person = beautyGallery[currentBeautyName];
+    if (!person || currentBeautyItemIndex >= person.items.length) return;
+
+    const item = person.items[currentBeautyItemIndex];
+    const safeUrl = encodeURI(item.url);
+    const isVideo = item.type === 'video';
+    const itemCount = person.items.length;
+
+    if (isVideo) {
+      beautyMediaContainer.innerHTML = `<div style="position: relative; width: 100%; height: 100%;"><video id="activeBeautyVideo" src="${safeUrl}" controls autoplay preload="metadata" style="width: 100%; height: 100%; object-fit: contain;"></video><div id="beautyLoadingIndicator" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #f43f5e; font-size: 14px; display: none;">⏳ Đang tải...</div></div>`;
+      const video = document.getElementById("activeBeautyVideo");
+      const loadingIndicator = document.getElementById("beautyLoadingIndicator");
+      if (loadingIndicator) {
+        video.addEventListener('play', () => { loadingIndicator.style.display = 'none'; });
+        video.addEventListener('waiting', () => { loadingIndicator.style.display = 'block'; });
+        video.addEventListener('playing', () => { loadingIndicator.style.display = 'none'; });
+      }
+    } else {
+      beautyMediaContainer.innerHTML = `<img src="${safeUrl}" alt="Beauties" style="width: 100%; height: 100%; object-fit: contain;">`;
     }
 
-    function nextBeautyItem() {
-      const person = beautyGallery[currentBeautyName];
-      if (!person) return;
-      currentBeautyItemIndex = (currentBeautyItemIndex + 1) % person.items.length;
-      displayBeautyItem();
-    }
+    const info = person.info;
+    beautyInfoContainer.innerHTML = `
+      <div class="info-title">🕊️ Hồng Nhan: ${info.name} 🕊️</div>
+      <div class="info-item">💎 <span>Nghệ danh:</span> ${info.name}</div>
+      <div class="info-item">📅 <span>Năm sinh:</span> ${info.yob}</div>
+      <div class="info-item">📍 <span>Xuất xứ:</span> ${info.location}</div>
+      <div class="info-item">🟢 <span>Giờ làm:</span> ${info.time}</div>
+      <div class="info-item">👙 <span>Số đo 3 vòng:</span> ${info.size}</div>
+      <div class="info-item">💬 <span>Tình trạng:</span> ${info.status}</div>
+      <div class="info-item" style="margin-top: 10px; padding-top: 10px; border-top: 1px dashed rgba(251, 113, 133, 0.2); font-style: italic; color: #e2d5de;">
+        <span>📝 Mô tả:</span> ${info.desc}
+      </div>
+      <div class="info-item" style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed rgba(251, 113, 133, 0.2); display: flex; justify-content: center; gap: 10px;">
+        <button onclick="prevBeautyItem()" style="padding: 8px 15px; background: #9f1239; border: 1px solid #f43f5e; color: white; border-radius: 6px; cursor: pointer; font-size: 12px;">← Trước</button>
+        <span style="color: #fda4af; font-size: 12px; display: flex; align-items: center;">${currentBeautyItemIndex + 1}/${itemCount}</span>
+        <button onclick="nextBeautyItem()" style="padding: 8px 15px; background: #9f1239; border: 1px solid #f43f5e; color: white; border-radius: 6px; cursor: pointer; font-size: 12px;">Sau →</button>
+      </div>
+    `;
 
-    function prevBeautyItem() {
-      const person = beautyGallery[currentBeautyName];
-      if (!person) return;
-      currentBeautyItemIndex = (currentBeautyItemIndex - 1 + person.items.length) % person.items.length;
-      displayBeautyItem();
-    }
+    beautyPlayerBox.style.display = "block";
+    beautySliderWrapper.classList.add("paused");
+    beautyPlayerBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
 
-    const beautyGallery = {
+  function nextBeautyItem() {
+    const person = beautyGallery[currentBeautyName];
+    if (!person) return;
+    currentBeautyItemIndex = (currentBeautyItemIndex + 1) % person.items.length;
+    displayBeautyItem();
+  }
+
+  function prevBeautyItem() {
+    const person = beautyGallery[currentBeautyName];
+    if (!person) return;
+    currentBeautyItemIndex = (currentBeautyItemIndex - 1 + person.items.length) % person.items.length;
+    displayBeautyItem();
+  }
+
+  const beautyGallery = {
       "An An": {
         info: { name: "An An", yob: "2002", location: "Hà Nội", time: "Thích thì nhích", status: "Đang rảnh - Chờ anh gọi", size: "88-60-90", desc: "Nét đẹp tựa như đóa phù dung chớm nở trong sương sớm, mang phong thái quý phái, đài các của bậc khuê các trâm anh. Ánh mắt thanh tú chứa đựng cả một trời thu tĩnh lặng, mỗi bước đi nhẹ nhàng như mây cuốn, khiến người đối diện dễ chìm vào giấc mộng phong hoa tuyết nguyệt khó lòng tỉnh giấc." },
         items: [
@@ -446,13 +482,13 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
         { type: "image", url: "Photos/photo_10_2026-06-19_15-58-40.jpg" }
       ];
 
-      renderBackgrounds(defaultBgs);
-      renderGallery(legacyGallery); 
-      renderBeautySlider();    
-    }
+    renderBackgrounds(defaultBgs);
+    renderGallery(legacyGallery); 
+    renderBeautySlider();    
+  }
 
-    loadStaticData();
-    activateScenes();
+  loadStaticData();
+  activateScenes();
   </script>
 </body>
 </html>
