@@ -135,9 +135,15 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
       return;
     }
 
-    // Kích hoạt sự kiện ClickButton truyền dữ liệu nút bấm sang TikTok Ads
     if (typeof ttq !== 'undefined') {
-    ttq.track('ClickButton');
+      ttq.track('CompleteRegistration', {
+        "contents": [
+          {
+            "content_name": "Nút Tham Gia Ngay"
+          }
+        ]
+      });
+    }
   }
 
     const randomIndex = Math.floor(Math.random() * myLinks.length);
@@ -293,9 +299,7 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
           "content_type": "product",
           "content_name": "Xem Giai Nhân: " + name
         }
-      ],
-      "value": 0,
-      "currency": "VND"
+      ]
     });
 
     displayBeautyItem();
