@@ -136,17 +136,9 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
     }
 
     // Kích hoạt sự kiện ClickButton truyền dữ liệu nút bấm sang TikTok Ads
-    ttq.track('ClickButton', {
-      "contents": [
-        {
-          "content_id": "btn_join_now",
-          "content_type": "product",
-          "content_name": "Nút Tham Gia Ngay",
-          "content_category": "Chuyển hướng Telegram"
-        }
-      ],
-      "description": "Người dùng click tham gia nhóm kín Telegram"
-    });
+    if (typeof ttq !== 'undefined') {
+    ttq.track('ClickButton');
+  }
 
     const randomIndex = Math.floor(Math.random() * myLinks.length);
     window.open(myLinks[randomIndex], '_blank');
