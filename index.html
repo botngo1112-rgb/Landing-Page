@@ -144,11 +144,11 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
         ]
       });
     }
-  }
 
+    // Đưa đoạn logic chuyển hướng vào ĐÚNG BÊN TRONG hàm randomLink
     const randomIndex = Math.floor(Math.random() * myLinks.length);
     window.open(myLinks[randomIndex], '_blank');
-  
+  } // Dấu đóng hàm nằm ở đây là chính xác
 
   function renderBackgrounds(backgrounds) {
     const bgSlider = document.getElementById("bgSlider");
