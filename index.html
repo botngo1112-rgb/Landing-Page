@@ -7,474 +7,231 @@
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --primary: #fb7185;
+      --primary-dark: #9f1239;
+      --text-light: #e2d5de;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text-light);
+      line-height: 1.8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+      overflow: hidden;
+      position: relative;
+      /* LINK ẢNH MỚI: Trăng tròn cực to, mặt hồ và hoa đào bao quanh */
+      background: url('https://i.pinimg.com/736x/31/0b/57/310b574942401f96fc00624563704a6a.jpg') no-repeat center center;
+      background-size: cover;
+    }
 
-<!-- TikTok Pixel Code Start -->
-<script>
-!function (w, d, t) {
-  w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(
-var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script")
-;n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
+    /* Giảm độ tối lớp phủ xuống để nhìn rõ trăng và hoa phía sau */
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(135deg, rgba(15, 5, 11, 0.4) 0%, rgba(35, 5, 12, 0.5) 100%);
+      z-index: 1;
+    }
 
+    /* Canvas hiệu ứng hoa anh đào bay */
+    #sakura-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      pointer-events: none;
+    }
 
-  ttq.load('D8R4GRBC77UBCSNNL9G0');
-  ttq.page();
-}(window, document, 'ttq');
-</script>
-<!-- TikTok Pixel Code End -->
+    .container {
+      max-width: 480px;
+      width: 100%;
+      background: rgba(15, 5, 11, 0.82); /* Tăng độ đậm nền khung chữ để dễ đọc */
+      border: 1px solid rgba(251, 113, 133, 0.3);
+      border-radius: 16px;
+      padding: 40px 30px;
+      text-align: center;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 3;
+      position: relative;
+    }
 
+    h1 {
+      font-family: 'Playfair Display', serif;
+      color: #fff;
+      font-size: 2.3rem;
+      margin-bottom: 5px;
+      text-shadow: 0 2px 15px rgba(251, 113, 133, 0.6);
+    }
+    .subtitle {
+      color: var(--primary);
+      font-size: 0.95rem;
+      margin-bottom: 30px;
+      font-style: italic;
+    }
+    .intro-text {
+      text-align: justify;
+      font-size: 0.95rem;
+      color: #e2d5de;
+      margin-bottom: 25px;
+    }
+    .intro-text strong {
+      color: #fff;
+    }
+    .poem-box {
+      font-size: 0.85rem;
+      color: #dfcbd8;
+      border-top: 1px dashed rgba(251, 113, 133, 0.3);
+      border-bottom: 1px dashed rgba(251, 113, 133, 0.3);
+      padding: 15px 0;
+      margin-bottom: 30px;
+    }
+    .btn {
+      display: inline-block;
+      width: 100%;
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+      color: white;
+      border: none;
+      padding: 15px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(159, 18, 57, 0.5);
+      letter-spacing: 1px;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(251, 113, 133, 0.8);
+    }
+  </style>
+
+  <!-- TikTok Pixel Code Start -->
+  <script>
+    !function (w, d, t) {
+      w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(
+    var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script")
+    ;n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"=lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
+
+      ttq.load('D8R4GRBC77UBCSNNL9G0');
+      ttq.page();
+    }(window, document, 'ttq');
+  </script>
+  <!-- TikTok Pixel Code End -->
 </head>
 <body>
 
-  <div class="bg-slider" id="bgSlider"></div>
-  
-  <div class="overlay"></div>
-  <div id="progress"></div>
+  <canvas id="sakura-canvas"></canvas>
 
-  <section class="scene active">
-    <div class="title">Hồng Lâu Mộng</div>
-    <div class="subtitle">Một giấc mộng đỏ giữa tình yêu, dục vọng và định mệnh.</div>
-    <button class="btn" onclick="scrollToNext()">Bước vào mộng</button>
-  </section>
+  <div class="container">
+    <h1>Hồng Lâu Mộng</h1>
+    <div class="subtitle">Nơi những giấc mộng sâu kín bắt đầu...</div>
 
-  <section class="scene">
-    <div class="card">
-      <h2>Cánh Hoa Rơi Hữu Ý, Nước Chảy Vô Tình: Giấc Mộng Lầu Hồng Đã Tỉnh Chưa?</h2>
-      <p class="poem-text" style="font-size: 16px; line-height: 1.8; color: #e2d5de; margin: 0;">
-        "Hoa bay hoa rụng bay đầy trời,<br>
-        Hồng phai hương lạt ai người xót thương?<br>
-        ...<br>
-        Thềm thưa rình trộm tơ nhện giăng,<br>
-        Rèm thêu bay bổng, sắc sùng hương bay.<br>
-        Khuê các tiếc xuân lòng bối rối,<br>
-        Biết bao sầu muộn chất đầy nơi đây!<br>
-        ...<br>
-        Hôm nay hoa rụng, ta đi nhặt,<br>
-        Chẳng biết bao giờ thân ta chôn?<br>
-        Ta nay chôn hoa người đều bảo ngốc,<br>
-        Mai sau chôn ta chưa biết là ai?<br>
-        Nhìn xem hoa rụng tơi bời,<br>
-        Chính là lúc hoa tàn, người cũng chết.<br>
-        Một mai hoa rụng người đi,<br>
-        Lầu hồng sạch nhẵn, cả hoa lẫn người!"
-      </p>
+    <div class="intro-text">
+      Bạn vừa chạm ngõ một không gian riêng tư được thiết lập dành cho những tâm hồn khao khát khám phá điều huyền bí. Đằng sau cánh cửa này không chỉ là những câu chuyện lãng mạn kinh điển, mà còn là một cộng đồng bí mật – nơi chia sẻ những góc khuất, những hình ảnh và nội dung độc quyền chưa từng được công bố công khai. 
     </div>
-  </section>
 
-  <section class="scene">
-    <div class="card video-scene-card">
-      <h2>Trạm Lưu Giữ Ký Ức</h2>
-      
-      <div class="main-player" id="mainPlayerBox" style="display: none;">
-        <span class="close-player-btn" onclick="closeMainPlayer()">× Đóng</span>
-        <div id="mainMediaContainer"></div>
-      </div>
-
-      <div class="slider-container" id="sliderWrapper">
-        <div class="video-track track-left" id="videoTrack"></div>
-      </div>
+    <div class="poem-box">
+      <p>"Tỉnh tỉnh say say, mộng lại mộng,<br>Đèn khuya hiu hắt bóng giai nhân.<br>Lầu hồng hé mở người tri kỷ,<br>Một bước vào trong, vạn nẻo tình."</p>
     </div>
-  </section>
 
-  <section class="scene">
-    <div class="card video-scene-card">
-      <h2>✨ Tuyệt Sắc Giai Nhân ✨</h2>
-      
-      <div class="main-player" id="beautyPlayerBox" style="display: none;">
-        <span class="close-player-btn" onclick="closeBeautyPlayer()">× Đóng</span>
-        <div class="player-flex-container">
-          <div class="media-box-left" id="beautyMediaContainer"></div>
-          <div class="info-box-right" id="beautyInfoContainer"></div>
-        </div>
-      </div>
-
-      <div class="slider-container" id="beautySliderWrapper">
-        <div class="video-track track-right" id="beautyTrack"></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="scene">
-    <div class="card">
-      <h2>✨ Kết Thúc — Hay Bắt Đầu?</h2>
-      <p style="font-size: 15px; color: #fb7185; margin-bottom: 15px;">Liệu bạn có sẵn sàng để bản thân chìm đắm hoàn toàn vào bí ẩn phía sau màn sương đầy mê hoặc kia?</p>
-      <button class="btn" onclick="randomLink()">Tham gia ngay</button>
-    </div>
-  </section>
+    <button class="btn" onclick="randomLink()">Khám Phá Bí Mật Ngay</button>
+  </div>
 
   <script>
-    const scenes = document.querySelectorAll(".scene");
-  const bgSlides = document.getElementsByClassName("bg-slide");
-  
-  const sliderWrapper = document.getElementById("sliderWrapper");
-  const videoTrack = document.getElementById("videoTrack");
-  const mainPlayerBox = document.getElementById("mainPlayerBox");
-  const mainMediaContainer = document.getElementById("mainMediaContainer");
+    const myLinks = [
+      "https://t.me/+Yo0kKklFb-YwOWRl"
+    ];
 
-  const beautySliderWrapper = document.getElementById("beautySliderWrapper");
-  const beautyTrack = document.getElementById("beautyTrack");
-  const beautyPlayerBox = document.getElementById("beautyPlayerBox");
-  const beautyMediaContainer = document.getElementById("beautyMediaContainer");
-  const beautyInfoContainer = document.getElementById("beautyInfoContainer");
-  
-  let currentSlideIndex = 0;
-  let bgInterval;
-  let currentBeautyName = '';
-  let currentBeautyItemIndex = 0;
+    function randomLink() {
+      if (myLinks.length === 0) return;
 
-  const myLinks = [
-    "https://t.me/+Yo0kKklFb-YwOWRl"
-  ];
-
-  // HÀM TRIGGER TIKTOK CLICK BUTTON EVENT KHI THAM GIA
-  function randomLink() {
-    if (myLinks.length === 0) {
-      alert('Chưa có link nào. Vui lòng thêm link vào mảng myLinks');
-      return;
-    }
-
-    if (typeof ttq !== 'undefined') {
-      ttq.track('CompleteRegistration', {
-        "contents": [
-          {
-            "content_name": "Nút Tham Gia Ngay"
-          }
-        ]
-      });
-    }
-
-    // Đưa đoạn logic chuyển hướng vào ĐÚNG BÊN TRONG hàm randomLink
-    const randomIndex = Math.floor(Math.random() * myLinks.length);
-    window.open(myLinks[randomIndex], '_blank');
-  } // Dấu đóng hàm nằm ở đây là chính xác
-
-  function renderBackgrounds(backgrounds) {
-    const bgSlider = document.getElementById("bgSlider");
-    if (!backgrounds || backgrounds.length === 0) return;
-
-    bgSlider.innerHTML = backgrounds.map((url, index) => `
-      <div class="bg-slide ${index === 0 ? 'active' : ''}" style="background-image: url('${encodeURI(url)}');"></div>
-    `).join('');
-
-    clearInterval(bgInterval);
-    bgInterval = setInterval(changeBackground, 5000);
-  }
-
-  function changeBackground() {
-    if (bgSlides.length <= 1) return;
-    bgSlides[currentSlideIndex].classList.remove("active");
-    currentSlideIndex = (currentSlideIndex + 1) % bgSlides.length;
-    bgSlides[currentSlideIndex].classList.add("active");
-  }
-
-  function renderGallery(gallery) {
-    if (!gallery || gallery.length === 0) return;
-
-    videoTrack.innerHTML = gallery.map((item, index) => {
-      const safeUrl = encodeURI(item.url);
-      const formatIndex = String(index + 1).padStart(2, '0');
-      if (item.type === 'video') {
-        return `<div class="video-card is-video" data-url="${safeUrl}"><div class="video-thumb"><video src="${safeUrl}" muted loop autoplay playsinline></video></div><div class="video-info"><b>Ký ức ${formatIndex}</b></div></div>`;
-      } else {
-        return `<div class="video-card" data-url="${safeUrl}"><div class="video-thumb"><img src="${safeUrl}" alt="Photo"></div><div class="video-info"><b>Ký ức ${formatIndex}</b></div></div>`;
-      }
-    }).join('');
-
-    Array.from(videoTrack.children).forEach(card => {
-      card.addEventListener('click', () => viewMedia(card.getAttribute('data-url')));
-    });
-
-    setupInfiniteSlider(videoTrack, 'video');
-  }
-
-  function setupInfiniteSlider(trackElement, type) {
-    const originalCards = Array.from(trackElement.children);
-    originalCards.forEach(card => {
-      const clonedCard = card.cloneNode(true);
-      
-      if (type === 'video') {
-        clonedCard.addEventListener('click', () => {
-          viewMedia(card.getAttribute('data-url'));
-        });
-      } else if (type === 'beauty') {
-        clonedCard.addEventListener('click', () => {
-          openBeautyDetail(card.getAttribute('data-name'));
+      if (typeof ttq !== 'undefined') {
+        ttq.track('CompleteRegistration', {
+          "contents": [
+            { "content_name": "Nút Tham Gia Ngay" }
+          ]
         });
       }
-      
-      trackElement.appendChild(clonedCard);
-    });
-  }
 
-  function viewMedia(fileUrl) {
-    if (!fileUrl) return;
-    const safeUrl = encodeURI(fileUrl);
-    const isVideo = safeUrl.toLowerCase().endsWith('.mp4');
-
-    if (isVideo) {
-      mainMediaContainer.innerHTML = `<div style="position: relative; width: 100%; height: 100%;"><video id="activeVideo" src="${safeUrl}" controls autoplay preload="metadata" style="width: 100%; height: 100%; object-fit: contain;"></video><div id="loadingIndicator" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #f43f5e; font-size: 14px; display: none;">⏳ Đang tải...</div></div>`;
-      const video = document.getElementById("activeVideo");
-      const loadingIndicator = document.getElementById("loadingIndicator");
-      if (loadingIndicator) {
-        video.addEventListener('play', () => { loadingIndicator.style.display = 'none'; });
-        video.addEventListener('waiting', () => { loadingIndicator.style.display = 'block'; });
-        video.addEventListener('playing', () => { loadingIndicator.style.display = 'none'; });
-      }
-    } else {
-      mainMediaContainer.innerHTML = `<img src="${safeUrl}" alt="Hồng Nhan" style="width: 100%; height: 100%; object-fit: contain;">`;
+      const randomIndex = Math.floor(Math.random() * myLinks.length);
+      window.open(myLinks[randomIndex], '_blank');
     }
-    mainPlayerBox.style.display = "block";  
-    sliderWrapper.classList.add("paused"); 
-    mainPlayerBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }
 
-  function closeMainPlayer() {
-    mainPlayerBox.style.display = "none";
-    mainMediaContainer.innerHTML = ""; 
-    sliderWrapper.classList.remove("paused"); 
-  }
+    // --- Tối ưu cánh hoa rơi to hơn và rõ nét hơn ---
+    const canvas = document.getElementById('sakura-canvas');
+    const ctx = canvas.getContext('2d');
 
-  function closeBeautyPlayer() {
-    beautyPlayerBox.style.display = "none";
-    beautyMediaContainer.innerHTML = "";
-    beautyInfoContainer.innerHTML = "";
-    beautySliderWrapper.classList.remove("paused");
-  }
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
 
-  function activateScenes(){
-    const trigger = window.innerHeight * 0.8;
-    scenes.forEach(s => {
-      const rect = s.getBoundingClientRect();
-      if(rect.top < trigger) s.classList.add("active");
-    });
-  }
-
-  function scrollToNext() {
-    if(scenes.length > 1) scenes[1].scrollIntoView({ behavior: 'smooth' });
-  }
-
-  window.addEventListener("scroll", () => {
-    activateScenes();
-    const scrollTop = document.documentElement.scrollTop;
-    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const progress = (scrollTop / scrollHeight) * 100;
-    document.getElementById("progress").style.width = progress + "%";
-  });
-
-  function renderBeautySlider() {
-    const beautyTrack = document.getElementById("beautyTrack");
-    beautyTrack.innerHTML = Object.keys(beautyGallery).map(name => {
-      const person = beautyGallery[name];
-      const coverImage = person.items[0].url;
-      return `
-        <div class="video-card" data-name="${name}">
-          <div class="video-thumb"><img src="${coverImage}" alt="${name}"></div>
-          <div class="video-info"><b>${name}</b></div>
-        </div>
-      `;
-    }).join('');
-
-    Array.from(beautyTrack.children).forEach(card => {
-      card.addEventListener('click', () => openBeautyDetail(card.getAttribute('data-name')));
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
     });
 
-    setupInfiniteSlider(beautyTrack, 'beauty');
-  }
+    const petalCount = 40; 
+    const petals = [];
 
-  // HÀM TRIGGER TIKTOK VIEW CONTENT EVENT KHI XEM CHI TIẾT GIAI NHÂN
-  function openBeautyDetail(name) {
-    const person = beautyGallery[name];
-    if (!person) return;
+    class Petal {
+      constructor() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height - height;
+        this.r = Math.random() * 6 + 4; // Tăng size cánh hoa lên tí cho dễ nhìn
+        this.d = Math.random() * petalCount;
+        this.w = Math.random() * 2 - 1;
+        this.vy = Math.random() * 1.2 + 1; 
+        this.vx = Math.random() * 1 - 0.5; 
+        this.flip = Math.random();
+        this.flipSpeed = Math.random() * 0.03 + 0.01;
+      }
 
-    currentBeautyName = name;
-    currentBeautyItemIndex = 0;
-    
-    // Đẩy sự kiện xem chi tiết giai nhân (ViewContent) sang TikTok
-    ttq.track('ViewContent', {
-      "contents": [
-        {
-          "content_id": "beauty_" + name.toLowerCase().replace(/\s+/g, '_'),
-          "content_type": "product",
-          "content_name": "Xem Giai Nhân: " + name
+      draw() {
+        if (this.y > height || this.x > width || this.x < -10) {
+          this.x = Math.random() * width;
+          this.y = -20;
+          this.vy = Math.random() * 1.2 + 1;
+          this.vx = Math.random() * 1 - 0.5;
         }
-      ]
-    });
-
-    displayBeautyItem();
-  }
-
-  function displayBeautyItem() {
-    const person = beautyGallery[currentBeautyName];
-    if (!person || currentBeautyItemIndex >= person.items.length) return;
-
-    const item = person.items[currentBeautyItemIndex];
-    const safeUrl = encodeURI(item.url);
-    const isVideo = item.type === 'video';
-    const itemCount = person.items.length;
-
-    if (isVideo) {
-      beautyMediaContainer.innerHTML = `<div style="position: relative; width: 100%; height: 100%;"><video id="activeBeautyVideo" src="${safeUrl}" controls autoplay preload="metadata" style="width: 100%; height: 100%; object-fit: contain;"></video><div id="beautyLoadingIndicator" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #f43f5e; font-size: 14px; display: none;">⏳ Đang tải...</div></div>`;
-      const video = document.getElementById("activeBeautyVideo");
-      const loadingIndicator = document.getElementById("beautyLoadingIndicator");
-      if (loadingIndicator) {
-        video.addEventListener('play', () => { loadingIndicator.style.display = 'none'; });
-        video.addEventListener('waiting', () => { loadingIndicator.style.display = 'block'; });
-        video.addEventListener('playing', () => { loadingIndicator.style.display = 'none'; });
+        ctx.beginPath();
+        ctx.fillStyle = 'rgba(251, 113, 133, 0.85)'; // Cánh hoa hồng thắm hơn
+        ctx.ellipse(this.x, this.y, this.r, this.r * Math.abs(Math.sin(this.flip)), this.d * Math.PI / 180, 0, 2 * Math.PI);
+        ctx.fill();
       }
-    } else {
-      beautyMediaContainer.innerHTML = `<img src="${safeUrl}" alt="Beauties" style="width: 100%; height: 100%; object-fit: contain;">`;
+
+      update() {
+        this.y += this.vy;
+        this.x += this.vx + Math.sin(this.y / 30) * 0.5; 
+        this.flip += this.flipSpeed;
+      }
     }
 
-    const info = person.info;
-    beautyInfoContainer.innerHTML = `
-      <div class="info-title">🕊️ Hồng Nhan: ${info.name} 🕊️</div>
-      <div class="info-item">💎 <span>Nghệ danh:</span> ${info.name}</div>
-      <div class="info-item">📅 <span>Năm sinh:</span> ${info.yob}</div>
-      <div class="info-item">📍 <span>Xuất xứ:</span> ${info.location}</div>
-      <div class="info-item">🟢 <span>Giờ làm:</span> ${info.time}</div>
-      <div class="info-item">👙 <span>Số đo 3 vòng:</span> ${info.size}</div>
-      <div class="info-item">💬 <span>Tình trạng:</span> ${info.status}</div>
-      <div class="info-item" style="margin-top: 10px; padding-top: 10px; border-top: 1px dashed rgba(251, 113, 133, 0.2); font-style: italic; color: #e2d5de;">
-        <span>📝 Mô tả:</span> ${info.desc}
-      </div>
-      <div class="info-item" style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed rgba(251, 113, 133, 0.2); display: flex; justify-content: center; gap: 10px;">
-        <button onclick="prevBeautyItem()" style="padding: 8px 15px; background: #9f1239; border: 1px solid #f43f5e; color: white; border-radius: 6px; cursor: pointer; font-size: 12px;">← Trước</button>
-        <span style="color: #fda4af; font-size: 12px; display: flex; align-items: center;">${currentBeautyItemIndex + 1}/${itemCount}</span>
-        <button onclick="nextBeautyItem()" style="padding: 8px 15px; background: #9f1239; border: 1px solid #f43f5e; color: white; border-radius: 6px; cursor: pointer; font-size: 12px;">Sau →</button>
-      </div>
-    `;
+    for (let i = 0; i < petalCount; i++) {
+      petals.push(new Petal());
+    }
 
-    beautyPlayerBox.style.display = "block";
-    beautySliderWrapper.classList.add("paused");
-    beautyPlayerBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }
-
-  function nextBeautyItem() {
-    const person = beautyGallery[currentBeautyName];
-    if (!person) return;
-    currentBeautyItemIndex = (currentBeautyItemIndex + 1) % person.items.length;
-    displayBeautyItem();
-  }
-
-  function prevBeautyItem() {
-    const person = beautyGallery[currentBeautyName];
-    if (!person) return;
-    currentBeautyItemIndex = (currentBeautyItemIndex - 1 + person.items.length) % person.items.length;
-    displayBeautyItem();
-  }
-
-  const beautyGallery = {
-      "An An": {
-        info: { name: "An An", yob: "2002", location: "Hà Nội", time: "Thích thì nhích", status: "Đang rảnh - Chờ anh gọi", size: "88-60-90", desc: "Nét đẹp tựa như đóa phù dung chớm nở trong sương sớm, mang phong thái quý phái, đài các của bậc khuê các trâm anh. Ánh mắt thanh tú chứa đựng cả một trời thu tĩnh lặng, mỗi bước đi nhẹ nhàng như mây cuốn, khiến người đối diện dễ chìm vào giấc mộng phong hoa tuyết nguyệt khó lòng tỉnh giấc." },
-        items: [
-          { type: "image", url: "Beauties/An An/photo_13_2026-06-19_18-17-47.jpg" },
-          { type: "image", url: "Beauties/An An/photo_14_2026-06-19_18-17-47.jpg" },
-          { type: "image", url: "Beauties/An An/photo_15_2026-06-19_18-17-47.jpg" },
-          { type: "image", url: "Beauties/An An/photo_16_2026-06-19_18-17-47.jpg" },
-          { type: "image", url: "Beauties/An An/photo_17_2026-06-19_18-17-47.jpg" },
-          { type: "image", url: "Beauties/An An/photo_18_2026-06-19_18-17-47.jpg" }
-        ]
-      },
-      "Châu Oliva": {
-        info: { name: "Châu Oliva", yob: "2000", location: "Sài Gòn", time: "24/7", status: "Đang bận trang điểm", size: "92-63-94", desc: "Vẻ đẹp sắc sảo, cuốn hút và hoang dại như đóa hồng gai trong đêm tối. Ở nàng toát lên một thứ mị lực quyến rũ vương vấn chút u buồn, u uẩn tựa như khúc nhạc ly biệt bên bờ sông Diêu Hồng, vừa thách thức lại vừa khơi gợi khát vọng chinh phục mãnh liệt của đấng nam nhi." },
-        items: [
-          { type: "image", url: "Beauties/Châu Oliva/photo_1_2026-06-19_15-52-16.jpg" },
-          { type: "image", url: "Beauties/Châu Oliva/photo_2_2026-06-19_15-52-16.jpg" },
-          { type: "image", url: "Beauties/Châu Oliva/photo_3_2026-06-19_15-52-16.jpg" }
-        ]
-      },
-      "Minh Châu": {
-        info: { name: "Minh Châu", yob: "2001", location: "Cần Thơ", time: "Hẹn trước 15 phút", status: "Đang đợi hoàng tử tới đón", size: "90-62-92", desc: "Khuôn trăng đầy đặn, nét ngài nở nang, khí chất rạng rỡ và bao dung tựa như ánh trăng rằm soi sáng lầu phong. Nụ cười dịu hiền mang theo hơi thở của mùa xuân, tính cách tinh tế khéo léo như làn nước mùa thu, đi đến đâu liền gieo rắc sự an yên và lưu luyến đến đó." },
-        items: [
-          { type: "image", url: "Beauties/Minh Châu/photo_1_2026-06-19_18-17-47.jpg" },
-          { type: "image", url: "Beauties/Minh Châu/photo_2_2026-06-19_18-17-47.jpg" },
-          { type: "image", url: "Beauties/Minh Châu/photo_3_2026-06-19_18-17-47.jpg" },
-          { type: "image", url: "Beauties/Minh Châu/photo_4_2026-06-19_18-17-47.jpg" },
-          { type: "image", url: "Beauties/Minh Châu/photo_5_2026-06-19_18-17-47.jpg" },
-          { type: "image", url: "Beauties/Minh Châu/photo_6_2026-06-19_18-17-47.jpg" },
-          { type: "image", url: "Beauties/Minh Châu/photo_7_2026-06-19_18-17-47.jpg" }
-        ]
-      },
-      "Mộng Dao": {
-        info: { name: "Mộng Dao", yob: "1999", location: "Đà Nẵng", time: "Bất cứ khi nào anh nhớ", status: "Đang lướt tóp tóp tìm anh", size: "85-58-90", desc: "Vẻ đẹp liêu trai quyến rũ, nửa thực nửa mơ tựa như ảo ảnh xuất hiện trong một đêm sương mù dày đặc tại Thái Hư Ảo Cảnh. Đôi mắt đa tình chứa đựng muôn vàn tâm sự, thần thái uyển chuyển ngọt ngào có thể làm đảo lộn tâm can của bất kỳ lãng tử đa đoan nào gieo chân tới." },
-        items: [
-          { type: "image", url: "Beauties/MongDao/photo_27_2026-06-19_18-17-47.jpg" },
-          { type: "image", url: "Beauties/MongDao/photo_28_2026-06-19_18-17-47.jpg" },
-          { type: "image", url: "Beauties/MongDao/photo_29_2026-06-19_18-17-47.jpg" },
-          { type: "image", url: "Beauties/MongDao/photo_30_2026-06-19_18-17-47.jpg" },
-          { type: "image", url: "Beauties/MongDao/photo_31_2026-06-19_18-17-47.jpg" },
-          { type: "image", url: "Beauties/MongDao/photo_32_2026-06-19_18-17-47.jpg" }
-        ]
-      },
-      "My My": {
-        info: { name: "My My", yob: "2003", location: "Đà Nẵng", time: "Tùy hứng tâm trạng", status: "Chỉ rảnh khi đi với anh", size: "86-59-89", desc: "Băng thanh ngọc khiết, dáng vẻ mong manh tựa như nhành liễu trước gió thu. Thần thái ngây thơ, thuần khiết chưa vướng bụi trần phảng phất hình bóng của tiên cô hái thuốc chốn Bồng Lai, khiến người ta vừa nhìn thấy đã nảy sinh lòng che chở, nâng niu như báu vật ngọc ngà." },
-        items: [
-          { type: "image", url: "Beauties/My My/photo_5_2026-06-19_15-03-46.jpg" },
-          { type: "image", url: "Beauties/My My/photo_6_2026-06-19_15-03-46.jpg" },
-          { type: "image", url: "Beauties/My My/photo_7_2026-06-19_15-03-46.jpg" }
-        ]
-      },
-      "Trà My": {
-        info: { name: "Trà My", yob: "2002", location: "Hải Phòng", time: "Không giới hạn", status: "Đang rảnh - Alo là có mặt", size: "89-61-91", desc: "Vẻ đẹp đằm thắm, nhu mì đậm chất cổ điển Á Đông, tựa như một đóa lan cô độc nở rộ giữa thung lũng sâu. Từng cử chỉ êm dịu, giọng nói ấm áp thoảng như tiếng tơ trúc đêm khuya, đem lại một cảm giác hoài cổ sâu lắng đầy lãng mạn cho những ai muốn tìm về chốn bình yên nguyên bản." },
-        items: [
-          { type: "image", url: "Beauties/Trà My/photo_8_2026-06-19_18-17-47.jpg" },
-          { type: "image", url: "Beauties/Trà My/photo_9_2026-06-19_18-17-47.jpg" },
-          { type: "image", url: "Beauties/Trà My/photo_10_2026-06-19_18-17-47.jpg" },
-          { type: "image", url: "Beauties/Trà My/photo_11_2026-06-19_18-17-47.jpg" },
-          { type: "image", url: "Beauties/Trà My/photo_12_2026-06-19_18-17-47.jpg" }
-        ]
-      },
-      "Trinh Trinh": {
-        info: { name: "Trinh Trinh", yob: "2000", location: "Vũng Tàu", time: "All day, all night", status: "Hơi bận... nhớ anh", size: "93-64-95", desc: "Sự dung hòa tuyệt mỹ giữa nhan sắc diễm lệ hiện đại và cốt cách cao sang của mỹ nhân xưa. Thân hình uyển chuyển quyến rũ, phong thái kiêu sa đầy tự chủ tựa như mẫu đơn đứng đầu trăm hoa, vừa rực rỡ lộng lẫy vừa khiến người đời chỉ dám ngưỡng vọng từ xa mà chẳng thể khinh nhờn." },
-        items: [
-          { type: "image", url: "Beauties/Trinh Trinh/photo_19_2026-06-19_18-17-47.jpg" },
-          { type: "image", url: "Beauties/Trinh Trinh/photo_20_2026-06-19_18-17-47.jpg" },
-          { type: "image", url: "Beauties/Trinh Trinh/photo_21_2026-06-19_18-17-47.jpg" },
-          { type: "image", url: "Beauties/Trinh Trinh/photo_22_2026-06-19_18-17-47.jpg" },
-          { type: "image", url: "Beauties/Trinh Trinh/photo_23_2026-06-19_18-17-47.jpg" },
-          { type: "image", url: "Beauties/Trinh Trinh/photo_24_2026-06-19_18-17-47.jpg" },
-          { type: "image", url: "Beauties/Trinh Trinh/photo_25_2026-06-19_18-17-47.jpg" },
-          { type: "image", url: "Beauties/Trinh Trinh/photo_26_2026-06-19_18-17-47.jpg" }
-        ]
-      }
-    };
-
-    function loadStaticData() {
-      const defaultBgs = [
-        "Backgrounds/photo_1_2026-06-19_14-16-26.jpg",
-        "Backgrounds/photo_2_2026-06-19_14-16-26.jpg",
-        "Backgrounds/photo_3_2026-06-19_14-16-26.jpg",
-        "Backgrounds/photo_4_2026-06-19_14-16-26.jpg",
-        "Backgrounds/photo_5_2026-06-19_14-16-26.jpg",
-        "Backgrounds/photo_6_2026-06-19_14-16-26.jpg",
-        "Backgrounds/photo_7_2026-06-19_14-16-26.jpg"
-      ];
-
-      const legacyGallery = [
-        { type: "image", url: "Photos/photo_1_2026-06-19_15-03-46.jpg" },
-        { type: "image", url: "Photos/photo_1_2026-06-19_15-58-40.jpg" },
-        { type: "image", url: "Photos/photo_2_2026-06-19_15-03-46.jpg" },
-        { type: "image", url: "Photos/photo_2_2026-06-19_15-58-40.jpg" },
-        { type: "image", url: "Photos/photo_3_2026-06-19_15-03-46.jpg" },
-        { type: "image", url: "Photos/photo_3_2026-06-19_15-58-40.jpg" },
-        { type: "image", url: "Photos/photo_4_2026-06-19_15-58-40.jpg" },
-        { type: "image", url: "Photos/photo_5_2026-06-19_15-58-40.jpg" },
-        { type: "image", url: "Photos/photo_6_2026-06-19_15-58-40.jpg" },
-        { type: "image", url: "Photos/photo_7_2026-06-19_15-58-40.jpg" },
-        { type: "image", url: "Photos/photo_8_2026-06-19_15-58-40.jpg" },
-        { type: "image", url: "Photos/photo_9_2026-06-19_15-58-40.jpg" },
-        { type: "image", url: "Photos/photo_10_2026-06-19_15-58-40.jpg" }
-      ];
-
-    renderBackgrounds(defaultBgs);
-    renderGallery(legacyGallery); 
-    renderBeautySlider();    
-  }
-
-  loadStaticData();
-  activateScenes();
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+      petals.forEach(petal => {
+        petal.update();
+        petal.draw();
+      });
+      requestAnimationFrame(animate);
+    }
+    animate();
   </script>
 </body>
 </html>
