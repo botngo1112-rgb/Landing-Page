@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hồng Lâu Mộng</title>
+  <title>Dream of Red Chamber</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,12 +28,10 @@
       padding: 20px;
       overflow: hidden;
       position: relative;
-      /* LINK ẢNH MỚI: Trăng tròn cực to, mặt hồ và hoa đào bao quanh */
       background: url('https://i.pinimg.com/736x/31/0b/57/310b574942401f96fc00624563704a6a.jpg') no-repeat center center;
       background-size: cover;
     }
 
-    /* Giảm độ tối lớp phủ xuống để nhìn rõ trăng và hoa phía sau */
     body::before {
       content: '';
       position: absolute;
@@ -42,13 +40,9 @@
       z-index: 1;
     }
 
-    /* Canvas hiệu ứng hoa anh đào bay */
     #sakura-canvas {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0; width: 100%; height: 100%;
       z-index: 2;
       pointer-events: none;
     }
@@ -56,7 +50,7 @@
     .container {
       max-width: 480px;
       width: 100%;
-      background: rgba(15, 5, 11, 0.82); /* Tăng độ đậm nền khung chữ để dễ đọc */
+      background: rgba(15, 5, 11, 0.85); 
       border: 1px solid rgba(251, 113, 133, 0.3);
       border-radius: 16px;
       padding: 40px 30px;
@@ -71,14 +65,14 @@
     h1 {
       font-family: 'Playfair Display', serif;
       color: #fff;
-      font-size: 2.3rem;
+      font-size: 2.1rem;
       margin-bottom: 5px;
       text-shadow: 0 2px 15px rgba(251, 113, 133, 0.6);
     }
     .subtitle {
       color: var(--primary);
       font-size: 0.95rem;
-      margin-bottom: 30px;
+      margin-bottom: 25px;
       font-style: italic;
     }
     .intro-text {
@@ -87,9 +81,6 @@
       color: #e2d5de;
       margin-bottom: 25px;
     }
-    .intro-text strong {
-      color: #fff;
-    }
     .poem-box {
       font-size: 0.85rem;
       color: #dfcbd8;
@@ -97,6 +88,7 @@
       border-bottom: 1px dashed rgba(251, 113, 133, 0.3);
       padding: 15px 0;
       margin-bottom: 30px;
+      font-style: italic;
     }
     .btn {
       display: inline-block;
@@ -137,24 +129,84 @@
   <canvas id="sakura-canvas"></canvas>
 
   <div class="container">
-    <h1>Hồng Lâu Mộng</h1>
-    <div class="subtitle">Nơi những giấc mộng sâu kín bắt đầu...</div>
+    <h1 id="lan-title">Hồng Lâu Mộng</h1>
+    <div class="subtitle" id="lan-subtitle">Nơi những giấc mộng sâu kín bắt đầu...</div>
 
-    <div class="intro-text">
-      Bạn vừa chạm ngõ một không gian riêng tư được thiết lập dành cho những tâm hồn khao khát khám phá điều huyền bí. Đằng sau cánh cửa này không chỉ là những câu chuyện lãng mạn kinh điển, mà còn là một cộng đồng bí mật – nơi chia sẻ những góc khuất, những hình ảnh và nội dung độc quyền chưa từng được công bố công khai. 
+    <div class="intro-text" id="lan-intro">
+      Bạn vừa chạm ngõ một không gian riêng tư được thiết lập dành cho những tâm hồn khao khát khám phá điều huyền bí. Đằng sau cánh cửa này không chỉ là những câu chuyện lãng mạn kinh điển, mà còn là một cộng đồng bí mật – nơi chia sẻ những góc khuất và nội dung độc quyền chưa từng được công bố công khai.
     </div>
 
-    <div class="poem-box">
-      <p>"Tỉnh tỉnh say say, mộng lại mộng,<br>Đèn khuya hiu hắt bóng giai nhân.<br>Lầu hồng hé mở người tri kỷ,<br>Một bước vào trong, vạn nẻo tình."</p>
+    <div class="poem-box" id="lan-poem">
+      "Tỉnh tỉnh say say, mộng lại mộng,<br>Đèn khuya hiu hắt bóng giai nhân.<br>Lầu hồng hé mở người tri kỷ,<br>Một bước vào trong, vạn nẻo tình."
     </div>
 
-    <button class="btn" onclick="randomLink()">Khám Phá Bí Mật Ngay</button>
+    <button class="btn" id="lan-btn" onclick="randomLink()">Khám Phá Bí Mật Ngay</button>
   </div>
 
   <script>
     const myLinks = [
       "https://t.me/+Yo0kKklFb-YwOWRl"
     ];
+
+    // Kho dữ liệu 5 ngôn ngữ
+    const languages = {
+      vi: {
+        title: "Hồng Lâu Mộng",
+        subtitle: "Nơi những giấc mộng sâu kín bắt đầu...",
+        intro: "Bạn vừa chạm ngõ một không gian riêng tư được thiết lập dành cho những tâm hồn khao khát khám phá điều huyền bí. Đằng sau cánh cửa này không chỉ là những câu chuyện lãng mạn kinh điển, mà còn là một cộng đồng bí mật – nơi chia sẻ những góc khuất và nội dung độc quyền chưa từng được công bố công khai.",
+        poem: '"Tỉnh tỉnh say say, mộng lại mộng,<br>Đèn khuya hiu hắt bóng giai nhân.<br>Lầu hồng hé mở người tri kỷ,<br>Một bước vào trong, vạn nẻo tình."',
+        btn: "Khám Phá Bí Mật Ngay"
+      },
+      en: {
+        title: "The Red Chamber",
+        subtitle: "Where deep hidden dreams begin...",
+        intro: "You have just stepped into a private space created for souls who long to discover the mysterious. Behind this door lies not only classic romance stories, but also a secret community — a place to share hidden corners and exclusive content never made public.",
+        poem: '"Half awake, half asleep, a dream within a dream,<br>Under the dim late lamp, the beauty\'s shadow gleams.<br>The red chamber opens wide for a kindred soul,<br>One step inside, endless passion takes control."',
+        btn: "Discover Secrets Now"
+      },
+      zh: {
+        title: "红楼梦",
+        subtitle: "深藏之梦开始的地方...",
+        intro: "您刚刚步入了一个专为渴望探索神秘灵魂而设立的私密空间。这扇门后不仅有经典的浪漫故事，更是一个隐藏的秘密社区 —— 这是一个分享从未公开的隐秘角落与独家内容的地方。",
+        poem: '"半醒半醉梦中梦，<br>夜深低灯照佳人。<br>红楼既开逢知己，<br>一步入内万缕情。"',
+        btn: "立即探索秘密"
+      },
+      ja: {
+        title: "紅楼夢",
+        subtitle: "深き隠された夢が始まる場所...",
+        intro: "あなたは今、神秘を探索することを切望する魂のために作られたプライベート空間に足を踏み入れました。この扉の向こうには、古典的なロマンスの物語だけでなく、未公開の隠された一面や独占コンテンツを共有する秘密のコミュニティが存在します。",
+        poem: '"半醒半酔 夢の中に夢があり、<br>夜更けの灯りの下 美人の影が揺れる。<br>紅楼が開き 知己に逢う、<br>一歩入れば 万缕の情が生まれる。"',
+        btn: "今すぐ秘密を解き明かす"
+      },
+      ko: {
+        title: "홍루몽",
+        subtitle: "깊이 숨겨진 꿈이 시작되는 곳...",
+        intro: "당신은 방금 신비로움을 갈망하는 영혼들을 위해 마련된 비밀스러운 공간에 발을 들여놓았습니다. 이 문 뒤에는 고전적인 로맨스 이야기뿐만 아니라, 공개된 적 없는 숨겨진 공간과 독점 콘텐츠를 공유하는 비밀 커뮤니티가 기다리고 있습니다.",
+        poem: '"반은 깨고 반은 취해 꿈속의 꿈을 꾸고,<br>깊은 밤 희미한 등불 아래 미인의 그림자 아른거리네.<br>홍루가 열려 지기(知己)를 만나니,<br>한 걸음 들어서면 만 갈래 정이 시작되리라."',
+        btn: "지금 비밀 찾기"
+      }
+    };
+
+    // Hàm tự động phát hiện và áp dụng ngôn ngữ
+    function applyLanguage() {
+      const browserLang = navigator.language || navigator.userLanguage;
+      let langCode = 'en'; // Mặc định là tiếng Anh nếu không thuộc 5 nước này
+
+      if (browserLang.startsWith('vi')) langCode = 'vi';
+      else if (browserLang.startsWith('zh')) langCode = 'zh';
+      else if (browserLang.startsWith('ja')) langCode = 'ja';
+      else if (browserLang.startsWith('ko')) langCode = 'ko';
+
+      const content = languages[langCode];
+      document.getElementById('lan-title').innerHTML = content.title;
+      document.getElementById('lan-subtitle').innerHTML = content.subtitle;
+      document.getElementById('lan-intro').innerHTML = content.intro;
+      document.getElementById('lan-poem').innerHTML = content.poem;
+      document.getElementById('lan-btn').innerHTML = content.btn;
+    }
+
+    // Chạy hàm chọn ngôn ngữ ngay khi tải trang
+    applyLanguage();
 
     function randomLink() {
       if (myLinks.length === 0) return;
@@ -171,7 +223,7 @@
       window.open(myLinks[randomIndex], '_blank');
     }
 
-    // --- Tối ưu cánh hoa rơi to hơn và rõ nét hơn ---
+    // --- Hiệu ứng cánh hoa rơi ---
     const canvas = document.getElementById('sakura-canvas');
     const ctx = canvas.getContext('2d');
 
@@ -190,7 +242,7 @@
       constructor() {
         this.x = Math.random() * width;
         this.y = Math.random() * height - height;
-        this.r = Math.random() * 6 + 4; // Tăng size cánh hoa lên tí cho dễ nhìn
+        this.r = Math.random() * 6 + 4; 
         this.d = Math.random() * petalCount;
         this.w = Math.random() * 2 - 1;
         this.vy = Math.random() * 1.2 + 1; 
@@ -207,7 +259,7 @@
           this.vx = Math.random() * 1 - 0.5;
         }
         ctx.beginPath();
-        ctx.fillStyle = 'rgba(251, 113, 133, 0.85)'; // Cánh hoa hồng thắm hơn
+        ctx.fillStyle = 'rgba(251, 113, 133, 0.85)'; 
         ctx.ellipse(this.x, this.y, this.r, this.r * Math.abs(Math.sin(this.flip)), this.d * Math.PI / 180, 0, 2 * Math.PI);
         ctx.fill();
       }
