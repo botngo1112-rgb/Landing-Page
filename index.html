@@ -1,289 +1,478 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dream of Red Chamber</title>
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-
-  <style>
-    :root {
-      --primary: #fb7185;
-      --primary-dark: #9f1239;
-      --text-light: #e2d5de;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hồng Lâu Mộng</title>
     
-    body {
-      font-family: 'Inter', sans-serif;
-      color: var(--text-light);
-      line-height: 1.8;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 20px;
-      overflow: hidden;
-      position: relative;
-      background: url('https://i.pinimg.com/736x/31/0b/57/310b574942401f96fc00624563704a6a.jpg') no-repeat center center;
-      background-size: cover;
-    }
+    <!-- Google Fonts: Serif cổ kính và Sans-serif hiện đại -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 
-    body::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(135deg, rgba(15, 5, 11, 0.4) 0%, rgba(35, 5, 12, 0.5) 100%);
-      z-index: 1;
-    }
+    <style>
+        :root {
+            --primary-red: #d6334a;
+            --btn-gradient: linear-gradient(90deg, #be253b 0%, #e63956 100%);
+            --bg-dark: #070203;
+            --gold-text: #cca464;
+            --text-light: #f5f5f5;
+            --text-muted: #8c8283;
+            --border-red: rgba(184, 29, 52, 0.2);
+        }
 
-    #sakura-canvas {
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-      z-index: 2;
-      pointer-events: none;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .container {
-      max-width: 480px;
-      width: 100%;
-      background: rgba(15, 5, 11, 0.85); 
-      border: 1px solid rgba(251, 113, 133, 0.3);
-      border-radius: 16px;
-      padding: 40px 30px;
-      text-align: center;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      z-index: 3;
-      position: relative;
-    }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            
+            /* ========================================== */
+            /* DÁN LINK ẢNH NỀN CỦA BẠN VÀO DÒNG DƯỚI ĐÂY */
+            /* ========================================== */
+            background-image: url('ChatGPT Image Jul 1, 2026, 05_55_31 PM.png');
+            
+            background-size: cover;
+            background-position: center;
+            background-attachment: fill;
+            background-repeat: no-repeat;
+        }
 
-    h1 {
-      font-family: 'Playfair Display', serif;
-      color: #fff;
-      font-size: 2.1rem;
-      margin-bottom: 5px;
-      text-shadow: 0 2px 15px rgba(251, 113, 133, 0.6);
-    }
-    .subtitle {
-      color: var(--primary);
-      font-size: 0.95rem;
-      margin-bottom: 25px;
-      font-style: italic;
-    }
-    .intro-text {
-      text-align: justify;
-      font-size: 0.95rem;
-      color: #e2d5de;
-      margin-bottom: 25px;
-    }
-    .poem-box {
-      font-size: 0.85rem;
-      color: #dfcbd8;
-      border-top: 1px dashed rgba(251, 113, 133, 0.3);
-      border-bottom: 1px dashed rgba(251, 113, 133, 0.3);
-      padding: 15px 0;
-      margin-bottom: 30px;
-      font-style: italic;
-    }
-    .btn {
-      display: inline-block;
-      width: 100%;
-      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
-      color: white;
-      border: none;
-      padding: 15px;
-      font-size: 1rem;
-      font-weight: 600;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(159, 18, 57, 0.5);
-      letter-spacing: 1px;
-    }
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 25px rgba(251, 113, 133, 0.8);
-    }
-  </style>
+        /* Lớp chứa hiệu ứng cánh hoa rơi */
+        #petal-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 3;
+            overflow: hidden;
+        }
 
-  <!-- TikTok Pixel Code Start -->
-  <script>
-    !function (w, d, t) {
-      w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(
-    var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script")
-    ;n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"=lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
+        /* Tạo hình cánh hoa đào mềm mại */
+        .petal {
+            position: absolute;
+            background: linear-gradient(135deg, #ff4d6d, #b81d34);
+            border-radius: 50% 0 50% 50%;
+            opacity: 0.6;
+            transform: rotate(-45deg);
+            animation: fall linear infinite;
+        }
 
-      ttq.load('D8R4GRBC77UBCSNNL9G0');
-      ttq.page();
-    }(window, document, 'ttq');
-  </script>
-  <!-- TikTok Pixel Code End -->
+        @keyframes fall {
+            0% {
+                transform: translateY(-20px) translateX(0) rotate(-45deg);
+                opacity: 0;
+            }
+            10% { opacity: 0.7; }
+            90% { opacity: 0.7; }
+            100% {
+                transform: translateY(105vh) translateX(100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 80px 20px 40px 20px;
+            position: relative;
+            z-index: 5;
+            text-align: center;
+        }
+
+        /* ----- HERO SECTION (CĂN GIỮA TOÀN BỘ) ----- */
+        .tagline {
+            color: var(--text-muted);
+            font-size: 11px;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 25px;
+        }
+        
+        .title-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .main-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 76px;
+            font-weight: 400;
+            line-height: 1.1;
+            color: #fff;
+            letter-spacing: 2px;
+        }
+
+        /* Con dấu triện đỏ nằm bên phải chữ Hồng Lâu */
+        .seal {
+            position: absolute;
+            right: -55px;
+            top: 15px;
+            border: 1px solid var(--primary-red);
+            color: var(--primary-red);
+            font-size: 11px;
+            font-family: sans-serif;
+            font-weight: bold;
+            padding: 4px 3px;
+            line-height: 1.2;
+            width: 24px;
+            text-align: center;
+            border-radius: 3px;
+            background: rgba(7, 2, 3, 0.6);
+        }
+
+        .gold-line {
+            width: 80px;
+            height: 1px;
+            background-color: var(--gold-text);
+            margin: 0 auto 30px auto;
+            opacity: 0.6;
+        }
+
+        .hero-desc {
+            color: var(--text-muted);
+            font-size: 15px;
+            line-height: 1.8;
+            max-width: 600px;
+            margin: 0 auto 40px auto;
+        }
+
+        /* ----- NÚT BẤM TELEGRAM CHUẨN ----- */
+        .telegram-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            background: var(--btn-gradient);
+            padding: 16px 40px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #fff;
+            box-shadow: 0 0 25px rgba(214, 51, 74, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 60px;
+        }
+        
+        .telegram-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 35px rgba(214, 51, 74, 0.5);
+        }
+
+        .telegram-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        .btn-label {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+
+        .btn-label .main-txt {
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+        }
+
+        .btn-label .sub-txt {
+            font-size: 9px;
+            opacity: 0.7;
+            letter-spacing: 0.5px;
+            margin-top: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Đường kẻ phân cách mảnh dưới nút bấm */
+        .section-divider {
+            border: none;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.05);
+            margin-bottom: 40px;
+        }
+
+        /* ----- THÔNG TIN 3 CỘT ----- */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+
+        .feature-card {
+            text-align: center;
+        }
+
+        .feature-icon {
+            color: var(--gold-text);
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .feature-icon svg {
+            width: 22px;
+            height: 22px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.5;
+        }
+
+        .feature-card h3 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* ----- KHUNG TRÍCH DẪN (QUOTE) ----- */
+        .quote-wrapper {
+            margin-bottom: 60px;
+            padding: 40px 30px;
+            border: 1px solid var(--border-red);
+            position: relative;
+            background: rgba(7, 2, 3, 0.4);
+        }
+
+        /* Góc họa tiết vàng */
+        .quote-wrapper::before, .quote-wrapper::after {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border: 1px solid var(--gold-text);
+        }
+        .quote-wrapper::before { top: 6px; left: 6px; border-right: none; border-bottom: none; }
+        .quote-wrapper::after { bottom: 6px; right: 6px; border-left: none; border-top: none; }
+
+        .quote-content {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20px;
+            color: var(--gold-text);
+            font-style: italic;
+            line-height: 1.6;
+        }
+
+        .quote-content .mark {
+            color: var(--primary-red);
+            font-size: 22px;
+            font-weight: bold;
+            padding: 0 4px;
+        }
+
+        .quote-author {
+            font-family: 'Cormorant Garamond', serif;
+            margin-top: 15px;
+            color: var(--text-muted);
+            font-size: 14px;
+            letter-spacing: 3px;
+        }
+
+        /* ----- KHỐI CỘNG ĐỒNG (COMMUNITY) ----- */
+        .community-box {
+            background: rgba(14, 6, 8, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 50px 40px;
+            margin-bottom: 60px;
+            backdrop-filter: blur(8px);
+        }
+
+        .comm-icon {
+            color: var(--gold-text);
+            margin-bottom: 20px;
+        }
+
+        .comm-icon svg {
+            width: 30px;
+            height: 30px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.2;
+        }
+
+        .community-box h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 32px;
+            font-weight: 400;
+            color: #fff;
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+        }
+
+        .community-box p {
+            color: var(--text-muted);
+            font-size: 14px;
+            max-width: 520px;
+            margin: 0 auto 30px auto;
+            line-height: 1.7;
+        }
+
+        .community-box .telegram-btn {
+            margin-bottom: 0;
+        }
+
+        /* ----- FOOTER ----- */
+        footer {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.25);
+            letter-spacing: 0.5px;
+        }
+
+        /* Responsive cho điện thoại di động */
+        @media (max-width: 768px) {
+            .main-title { font-size: 56px; }
+            .seal { right: -40px; top: 10px; }
+            .features-grid { grid-template-columns: 1fr; gap: 40px; }
+            .community-box { padding: 40px 20px; }
+        }
+    </style>
 </head>
 <body>
 
-  <canvas id="sakura-canvas"></canvas>
+    <!-- HIỆU ỨNG CÁNH HOA RƠI -->
+    <div id="petal-container"></div>
 
-  <div class="container">
-    <h1 id="lan-title">Hồng Lâu Mộng</h1>
-    <div class="subtitle" id="lan-subtitle">Nơi những giấc mộng sâu kín bắt đầu...</div>
+    <div class="container">
+        
+        <!-- HERO SECTION -->
+        <section class="hero-section">
+            <span class="tagline">A Tale of Love, Fate & Illusion</span>
+            
+            <div class="title-container">
+                <h1 class="main-title">Hồng Lâu<br>Mộng</h1>
+                <div class="seal">紅樓<br>夢</div>
+            </div>
+            
+            <div class="gold-line"></div>
+            
+            <p class="hero-desc">
+                Giấc mộng phồn hoa của một đời người, giữa tình yêu, số phận và những điều không thể nắm giữ.
+            </p>
 
-    <div class="intro-text" id="lan-intro">
-      Bạn vừa chạm ngõ một không gian riêng tư được thiết lập dành cho những tâm hồn khao khát khám phá điều huyền bí. Đằng sau cánh cửa này không chỉ là những câu chuyện lãng mạn kinh điển, mà còn là một cộng đồng bí mật – nơi chia sẻ những góc khuất và nội dung độc quyền chưa từng được công bố công khai.
+            <!-- Nút bấm lớn số 1 -->
+            <a href="YOUR_TELEGRAM_LINK" class="telegram-btn" target="_blank">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-1-.65-.35-1 .22-1.62.15-.15 2.7-2.46 2.75-2.67.01-.03.01-.15-.06-.21-.07-.06-.17-.04-.25-.02-.11.02-1.83 1.16-5.16 3.41-.49.33-.93.5-1.33.49-.44-.01-1.29-.25-1.92-.45-.77-.25-1.39-.39-1.34-.83.03-.23.35-.46.97-.71 3.8-1.65 6.33-2.74 7.6-3.27 3.61-1.51 4.36-1.77 4.85-1.78.11 0 .35.03.5.16.13.12.17.28.19.39-.02.07-.01.18-.02.26z"/>
+                </svg>
+                <div class="btn-label">
+                    <span class="main-txt">BƯỚC VÀO GIẤC MỘNG</span>
+                    <span class="sub-txt">Tham gia Telegram ngay</span>
+                </div>
+            </a>
+        </section>
+
+        <hr class="section-divider">
+
+        <!-- 3 CỘT ĐẶC ĐIỂM -->
+        <section class="features-grid">
+            <div class="feature-card">
+                <span class="feature-icon">
+                    <!-- Icon Định vị/Pin -->
+                    <svg viewBox="0 0 24 24"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+                <h3>Câu chuyện kinh điển</h3>
+                <p>Tinh hoa văn học Trung Hoa</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">
+                    <!-- Icon Mặt nạ/Trải nghiệm -->
+                    <svg viewBox="0 0 24 24"><path d="M18 4H6a4 4 0 0 0-4 4v8a4 4 0 0 0 4 4h12a4 4 0 0 0 4-4V8a4 4 0 0 0-4-4z" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 10h.01M16 10h.01M9 14.5s1.5 1.5 3 1.5 3-1.5 3-1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+                <h3>Nhân vật đầy cảm xúc</h3>
+                <p>Mỗi người một số phận, một giấc mộng</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">
+                    <!-- Icon Đèn lồng -->
+                    <svg viewBox="0 0 24 24"><path d="M7 5h10v11H7zM12 2v3M12 16v6M5 9h14M5 13h14" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+                <h3>Thế giới tuyệt mỹ</h3>
+                <p>Cổ trang, nghệ thuật & cảm xúc</p>
+            </div>
+        </section>
+
+        <!-- KHUNG TRÍCH DẪN -->
+        <section class="quote-wrapper">
+            <div class="quote-content">
+                <span class="mark">“</span>Hồng Lâu là giấc mộng, mộng tỉnh thì hoa rụng người tàn.<span class="mark">”</span>
+            </div>
+            <div class="quote-author">- 曹雪芹 -</div>
+        </section>
+
+        <!-- KHỐI CỘNG ĐỒNG DƯỚI CÙNG -->
+        <section class="community-box">
+            <div class="comm-icon">
+                <!-- Icon Hoa văn la bàn cổ -->
+                <svg viewBox="0 0 24 24"><path d="M12 2v20M2 12h20M5.75 5.75l12.5 12.5M18.25 5.75L5.75 12.5" stroke-linecap="round"/><circle cx="12" cy="12" r="3"/></svg>
+            </div>
+            <h2>Tham gia cộng đồng</h2>
+            <p>Cùng nhau khám phá Hồng Lâu Mộng qua những câu chuyện, hình ảnh và cảm nhận sâu sắc nhất.</p>
+            
+            <!-- Nút bấm lớn số 2 -->
+            <a href="YOUR_TELEGRAM_LINK" class="telegram-btn" target="_blank">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-1-.65-.35-1 .22-1.62.15-.15 2.7-2.46 2.75-2.67.01-.03.01-.15-.06-.21-.07-.06-.17-.04-.25-.02-.11.02-1.83 1.16-5.16 3.41-.49.33-.93.5-1.33.49-.44-.01-1.29-.25-1.92-.45-.77-.25-1.39-.39-1.34-.83.03-.23.35-.46.97-.71 3.8-1.65 6.33-2.74 7.6-3.27 3.61-1.51 4.36-1.77 4.85-1.78.11 0 .35.03.5.16.13.12.17.28.19.39-.02.07-.01.18-.02.26z"/>
+                </svg>
+                <div class="btn-label">
+                    <span class="main-txt">THAM GIA TELEGRAM</span>
+                    <span class="sub-txt">Khám phá ngay</span>
+                </div>
+            </a>
+        </section>
+
+        <!-- FOOTER -->
+        <footer>
+            © 2024 Hồng Lâu Mộng | Nội dung dành cho cộng đồng yêu văn hóa & cổ trang.
+        </footer>
+
     </div>
 
-    <div class="poem-box" id="lan-poem">
-      "Tỉnh tỉnh say say, mộng lại mộng,<br>Đèn khuya hiu hắt bóng giai nhân.<br>Lầu hồng hé mở người tri kỷ,<br>Một bước vào trong, vạn nẻo tình."
-    </div>
+    <!-- SCRIPT TẠO CÁNH HOA ĐÀO RƠI NGẪU NHIÊN -->
+    <script>
+        const container = document.getElementById('petal-container');
+        const petalCount = 35; // Tổng số cánh hoa xuất hiện trên màn hình cùng lúc
 
-    <button class="btn" id="lan-btn" onclick="randomLink()">Khám Phá Bí Mật Ngay</button>
-  </div>
-
-  <script>
-    const myLinks = [
-      "https://t.me/+Yo0kKklFb-YwOWRl"
-    ];
-
-    // Kho dữ liệu 5 ngôn ngữ
-    const languages = {
-      vi: {
-        title: "Hồng Lâu Mộng",
-        subtitle: "Nơi những giấc mộng sâu kín bắt đầu...",
-        intro: "Bạn vừa chạm ngõ một không gian riêng tư được thiết lập dành cho những tâm hồn khao khát khám phá điều huyền bí. Đằng sau cánh cửa này không chỉ là những câu chuyện lãng mạn kinh điển, mà còn là một cộng đồng bí mật – nơi chia sẻ những góc khuất và nội dung độc quyền chưa từng được công bố công khai.",
-        poem: '"Tỉnh tỉnh say say, mộng lại mộng,<br>Đèn khuya hiu hắt bóng giai nhân.<br>Lầu hồng hé mở người tri kỷ,<br>Một bước vào trong, vạn nẻo tình."',
-        btn: "Khám Phá Bí Mật Ngay"
-      },
-      en: {
-        title: "The Red Chamber",
-        subtitle: "Where deep hidden dreams begin...",
-        intro: "You have just stepped into a private space created for souls who long to discover the mysterious. Behind this door lies not only classic romance stories, but also a secret community — a place to share hidden corners and exclusive content never made public.",
-        poem: '"Half awake, half asleep, a dream within a dream,<br>Under the dim late lamp, the beauty\'s shadow gleams.<br>The red chamber opens wide for a kindred soul,<br>One step inside, endless passion takes control."',
-        btn: "Discover Secrets Now"
-      },
-      zh: {
-        title: "红楼梦",
-        subtitle: "深藏之梦开始的地方...",
-        intro: "您刚刚步入了一个专为渴望探索神秘灵魂而设立的私密空间。这扇门后不仅有经典的浪漫故事，更是一个隐藏的秘密社区 —— 这是一个分享从未公开的隐秘角落与独家内容的地方。",
-        poem: '"半醒半醉梦中梦，<br>夜深低灯照佳人。<br>红楼既开逢知己，<br>一步入内万缕情。"',
-        btn: "立即探索秘密"
-      },
-      ja: {
-        title: "紅楼夢",
-        subtitle: "深き隠された夢が始まる場所...",
-        intro: "あなたは今、神秘を探索することを切望する魂のために作られたプライベート空間に足を踏み入れました。この扉の向こうには、古典的なロマンスの物語だけでなく、未公開の隠された一面や独占コンテンツを共有する秘密のコミュニティが存在します。",
-        poem: '"半醒半酔 夢の中に夢があり、<br>夜更けの灯りの下 美人の影が揺れる。<br>紅楼が開き 知己に逢う、<br>一歩入れば 万缕の情が生まれる。"',
-        btn: "今すぐ秘密を解き明かす"
-      },
-      ko: {
-        title: "홍루몽",
-        subtitle: "깊이 숨겨진 꿈이 시작되는 곳...",
-        intro: "당신은 방금 신비로움을 갈망하는 영혼들을 위해 마련된 비밀스러운 공간에 발을 들여놓았습니다. 이 문 뒤에는 고전적인 로맨스 이야기뿐만 아니라, 공개된 적 없는 숨겨진 공간과 독점 콘텐츠를 공유하는 비밀 커뮤니티가 기다리고 있습니다.",
-        poem: '"반은 깨고 반은 취해 꿈속의 꿈을 꾸고,<br>깊은 밤 희미한 등불 아래 미인의 그림자 아른거리네.<br>홍루가 열려 지기(知己)를 만나니,<br>한 걸음 들어서면 만 갈래 정이 시작되리라."',
-        btn: "지금 비밀 찾기"
-      }
-    };
-
-    // Hàm tự động phát hiện và áp dụng ngôn ngữ
-    function applyLanguage() {
-      const browserLang = navigator.language || navigator.userLanguage;
-      let langCode = 'en'; // Mặc định là tiếng Anh nếu không thuộc 5 nước này
-
-      if (browserLang.startsWith('vi')) langCode = 'vi';
-      else if (browserLang.startsWith('zh')) langCode = 'zh';
-      else if (browserLang.startsWith('ja')) langCode = 'ja';
-      else if (browserLang.startsWith('ko')) langCode = 'ko';
-
-      const content = languages[langCode];
-      document.getElementById('lan-title').innerHTML = content.title;
-      document.getElementById('lan-subtitle').innerHTML = content.subtitle;
-      document.getElementById('lan-intro').innerHTML = content.intro;
-      document.getElementById('lan-poem').innerHTML = content.poem;
-      document.getElementById('lan-btn').innerHTML = content.btn;
-    }
-
-    // Chạy hàm chọn ngôn ngữ ngay khi tải trang
-    applyLanguage();
-
-    function randomLink() {
-      if (myLinks.length === 0) return;
-
-      if (typeof ttq !== 'undefined') {
-        ttq.track('CompleteRegistration', {
-          "contents": [
-            { "content_name": "Nút Tham Gia Ngay" }
-          ]
-        });
-      }
-
-      const randomIndex = Math.floor(Math.random() * myLinks.length);
-      window.open(myLinks[randomIndex], '_blank');
-    }
-
-    // --- Hiệu ứng cánh hoa rơi ---
-    const canvas = document.getElementById('sakura-canvas');
-    const ctx = canvas.getContext('2d');
-
-    let width = canvas.width = window.innerWidth;
-    let height = canvas.height = window.innerHeight;
-
-    window.addEventListener('resize', () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    });
-
-    const petalCount = 40; 
-    const petals = [];
-
-    class Petal {
-      constructor() {
-        this.x = Math.random() * width;
-        this.y = Math.random() * height - height;
-        this.r = Math.random() * 6 + 4; 
-        this.d = Math.random() * petalCount;
-        this.w = Math.random() * 2 - 1;
-        this.vy = Math.random() * 1.2 + 1; 
-        this.vx = Math.random() * 1 - 0.5; 
-        this.flip = Math.random();
-        this.flipSpeed = Math.random() * 0.03 + 0.01;
-      }
-
-      draw() {
-        if (this.y > height || this.x > width || this.x < -10) {
-          this.x = Math.random() * width;
-          this.y = -20;
-          this.vy = Math.random() * 1.2 + 1;
-          this.vx = Math.random() * 1 - 0.5;
+        for (let i = 0; i < petalCount; i++) {
+            const petal = document.createElement('div');
+            petal.classList.add('petal');
+            
+            // Độ lớn ngẫu nhiên ngẫu hứng từ 8px -> 18px
+            const size = Math.random() * 10 + 8; 
+            petal.style.width = `${size}px`;
+            petal.style.height = `${size}px`;
+            
+            // Vị trí xuất hiện ngẫu nhiên theo chiều ngang
+            petal.style.left = `${Math.random() * 100}vw`;
+            
+            // Tốc độ rơi và thời gian delay ngẫu nhiên để các cánh rơi so le nhau tự nhiên
+            petal.style.animationDuration = `${Math.random() * 6 + 6}s`; 
+            petal.style.animationDelay = `${Math.random() * 6}s`;
+            
+            container.appendChild(petal);
         }
-        ctx.beginPath();
-        ctx.fillStyle = 'rgba(251, 113, 133, 0.85)'; 
-        ctx.ellipse(this.x, this.y, this.r, this.r * Math.abs(Math.sin(this.flip)), this.d * Math.PI / 180, 0, 2 * Math.PI);
-        ctx.fill();
-      }
-
-      update() {
-        this.y += this.vy;
-        this.x += this.vx + Math.sin(this.y / 30) * 0.5; 
-        this.flip += this.flipSpeed;
-      }
-    }
-
-    for (let i = 0; i < petalCount; i++) {
-      petals.push(new Petal());
-    }
-
-    function animate() {
-      ctx.clearRect(0, 0, width, height);
-      petals.forEach(petal => {
-        petal.update();
-        petal.draw();
-      });
-      requestAnimationFrame(animate);
-    }
-    animate();
-  </script>
+    </script>
 </body>
 </html>
